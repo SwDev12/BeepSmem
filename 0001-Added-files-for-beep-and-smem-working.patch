@@ -1,0 +1,94 @@
+From af662ca299caba6767a427cfd00ed5bc34df2d56 Mon Sep 17 00:00:00 2001
+From: Dmitry S <dev.dragon@bk.ru>
+Date: Thu, 23 Jun 2016 08:22:19 +0300
+Subject: [PATCH] Added files for beep and smem working.
+
+---
+ package/Config.in      |  2 ++
+ package/beep/Config.in |  6 ++++++
+ package/beep/beep.mk   | 13 +++++++++++++
+ package/smem/Config.in |  6 ++++++
+ package/smem/smem.mk   | 12 ++++++++++++
+ 5 files changed, 39 insertions(+)
+ create mode 100644 package/beep/Config.in
+ create mode 100644 package/beep/beep.mk
+ create mode 100644 package/smem/Config.in
+ create mode 100644 package/smem/smem.mk
+
+diff --git a/package/Config.in b/package/Config.in
+index 9d668bf..f9578b4 100644
+--- a/package/Config.in
++++ b/package/Config.in
+@@ -128,6 +128,8 @@ menu "Development tools"
+ 	source "package/cppunit/Config.in"
+ 	source "package/cvs/Config.in"
+ 	source "package/cxxtest/Config.in"
++	source "package/beep/Config.in"
++	source "package/smem/Config.in"
+ if BR2_PACKAGE_BUSYBOX_SHOW_OTHERS
+ 	source "package/diffutils/Config.in"
+ 	source "package/dos2unix/Config.in"
+diff --git a/package/beep/Config.in b/package/beep/Config.in
+new file mode 100644
+index 0000000..5c5c057
+--- /dev/null
++++ b/package/beep/Config.in
+@@ -0,0 +1,6 @@
++config BR2_PACKAGE_BEEP
++	bool "beep"
++	help 
++	  Special program for informing by terminal bell.
++
++	  http://www.johnath.com/beep/beep-1.3.tar.gz
+diff --git a/package/beep/beep.mk b/package/beep/beep.mk
+new file mode 100644
+index 0000000..6c6bbca
+--- /dev/null
++++ b/package/beep/beep.mk
+@@ -0,0 +1,13 @@
++##########################################################################
++#
++# beep
++#
++##########################################################################
++
++BEEP_VERSION = 1.3
++BEEP_SOURCE = beep-$(BEEP_VERSION).tar.gz
++BEEP_SITE = http://www.johnath.com/beep
++BEEP_INSTALL_STAGING = YES
++BEEP_INSTALL_TARGET = YES
++
++$(eval $(generic-package))
+diff --git a/package/smem/Config.in b/package/smem/Config.in
+new file mode 100644
+index 0000000..d730899
+--- /dev/null
++++ b/package/smem/Config.in
+@@ -0,0 +1,6 @@
++config BR2_PACKAGE_SMEM
++	bool "smem"
++	help
++	  Gives users information about using memory.
++		
++	  https://www.selenic.com/smem/download/smem-1.4.tar.gz
+diff --git a/package/smem/smem.mk b/package/smem/smem.mk
+new file mode 100644
+index 0000000..3a6d42f
+--- /dev/null
++++ b/package/smem/smem.mk
+@@ -0,0 +1,12 @@
++###################################################################################
++#
++# smem
++#
++##################################################################################
++SMEM_VERSION = 1.4
++SMEM_SOURCE = smem-$(SMEM_VERSION).tar.gz
++SMEM_SITE = https://www.selenic.com/smem/download
++SMEM_INSTALL_STAGING = YES
++SMEM_INSTALL_TARGET = YES
++
++$(eval $(generic-package))
+-- 
+2.6.3
+
