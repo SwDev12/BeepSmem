@@ -1,4 +1,4 @@
-From af662ca299caba6767a427cfd00ed5bc34df2d56 Mon Sep 17 00:00:00 2001
+From 2eea10a2d29db9cc092b54820a4195947c482239 Mon Sep 17 00:00:00 2001
 From: Dmitry S <dev.dragon@bk.ru>
 Date: Thu, 23 Jun 2016 08:22:19 +0300
 Subject: [PATCH] Added files for beep and smem working.
@@ -6,10 +6,10 @@ Subject: [PATCH] Added files for beep and smem working.
 ---
  package/Config.in      |  2 ++
  package/beep/Config.in |  6 ++++++
- package/beep/beep.mk   | 13 +++++++++++++
+ package/beep/beep.mk   | 27 +++++++++++++++++++++++++++
  package/smem/Config.in |  6 ++++++
- package/smem/smem.mk   | 12 ++++++++++++
- 5 files changed, 39 insertions(+)
+ package/smem/smem.mk   | 22 ++++++++++++++++++++++
+ 5 files changed, 63 insertions(+)
  create mode 100644 package/beep/Config.in
  create mode 100644 package/beep/beep.mk
  create mode 100644 package/smem/Config.in
@@ -42,10 +42,10 @@ index 0000000..5c5c057
 +	  http://www.johnath.com/beep/beep-1.3.tar.gz
 diff --git a/package/beep/beep.mk b/package/beep/beep.mk
 new file mode 100644
-index 0000000..6c6bbca
+index 0000000..661371e
 --- /dev/null
 +++ b/package/beep/beep.mk
-@@ -0,0 +1,13 @@
+@@ -0,0 +1,27 @@
 +##########################################################################
 +#
 +# beep
@@ -57,6 +57,20 @@ index 0000000..6c6bbca
 +BEEP_SITE = http://www.johnath.com/beep
 +BEEP_INSTALL_STAGING = YES
 +BEEP_INSTALL_TARGET = YES
++
++define BEEP_BUILD_CMDS
++	$(MAKE) CC=$(TARGET_CC) LD=$(TARGET_LD) -C $(@D) default
++endef
++
++define BEEP_INSTALL_STAGING_CMDS
++	$(INSTALL) -D -m 0755 $(@D)/beep $(STAGING_DIR)/usr/bin/
++	$(INSTALL) -D -m 0644 $(@D)/beep.1.gz $(STAGING_DIR)/usr/man/man1
++endef
++
++define BEEP_INSTALL_TARGET_CMDS
++	$(INSTALL) -D -m 0755 $(@D)/beep $(TARGET_DIR)/usr/bin
++	$(INSTALL) -D -m 0644 $(@D)/beep.1.gz $(TARGET_DIR)/usr/man/man1
++endef
 +
 +$(eval $(generic-package))
 diff --git a/package/smem/Config.in b/package/smem/Config.in
@@ -73,10 +87,10 @@ index 0000000..d730899
 +	  https://www.selenic.com/smem/download/smem-1.4.tar.gz
 diff --git a/package/smem/smem.mk b/package/smem/smem.mk
 new file mode 100644
-index 0000000..3a6d42f
+index 0000000..f9d80cb
 --- /dev/null
 +++ b/package/smem/smem.mk
-@@ -0,0 +1,12 @@
+@@ -0,0 +1,22 @@
 +###################################################################################
 +#
 +# smem
@@ -87,6 +101,16 @@ index 0000000..3a6d42f
 +SMEM_SITE = https://www.selenic.com/smem/download
 +SMEM_INSTALL_STAGING = YES
 +SMEM_INSTALL_TARGET = YES
++
++define SMEM_INSTALL_STAGING_CMDS
++	$(INSTALL) -D -m 0755 $(@D)/smem $(STAGING_DIR)/usr/bin/
++	$(INSTALL) -D -m 0644 $(@D)/smem.8 $(STAGING_DIR)/usr/man/man8
++endef
++
++define SMEM_INSTALL_TARGET_CMDS
++	$(INSTALL) -D -m 0755 $(@D)/smem $(TARGET_DIR)/usr/bin/
++	$(INSTALL) -D -m 0644 $(@D)/smem.8 $(TARGET_DIR)/usr/man/man8
++endef
 +
 +$(eval $(generic-package))
 -- 
